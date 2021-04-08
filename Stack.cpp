@@ -17,14 +17,12 @@ public:
     }
 
     Stack(const Stack &stack){
-        Node* newNode = new Node;
-        newNode->value = stack.pTop->value;
-        newNode->next = stack.pTop->next;
-        pTop = newNode;
-        while(pTop!=stack.pTop)
-        {
-            push(*pTop);
-            pTop = pTop->next;
+        Node* temp = stack.pTop;
+        size = stack.getSize();
+        pTop = temp;
+        lst = temp;
+        while(temp->next != pTop){
+            temp = temp->next;
         }
     }
 
@@ -38,7 +36,10 @@ public:
     }
 
     Node pop(){
-        pTop = pTop->next;
+        Node* temp;
+        temp = pTop->next;
+        delete(pTop);
+        pTop = temp;
         lst->next = pTop;
         size--;
     }
@@ -47,12 +48,20 @@ public:
         return pTop;
     }
 
-    ~Stack(){ std::cout << "deleted" << std::endl;}
+    ~Stack(){
+        for(int i =0; i < size; i++){
+            pop();
+        }
+    }
 
     friend std::ostream& operator<< (std::ostream &out, const Stack &node) {
 
-        out << node.size;
-
+        Node *temp;
+        temp = node.pTop;
+        do {
+            out << temp->value << " "; // вывод значения узла p
+            temp = temp->next; // переход к следующему узлу
+        } while (temp != node.pTop); // условие окончания обхода
         return out;
     }
 

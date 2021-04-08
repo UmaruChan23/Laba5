@@ -19,10 +19,20 @@ int main() {
     stackList.pop();
 
     stackList.push(node2);
+    stackList.push(node1);
+    stackList.push(node);
+
 
     Stack listList(stackList);
 
+    listList.pop();
+    listList.push(node);
+
     cout << stackList << endl;
+
+    cout << listList << endl;
+
+    cout << listList.getSize() << endl;
 
 
 

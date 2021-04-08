@@ -1,43 +1,60 @@
 #include <iostream>
 #include "Node.cpp"
 
-class StackList{
-    Node *head, *tail;
+class Stack {
+    Node *pTop, *lst;
     int size = 0;
 public:
-    StackList(): size(0){
-        head = new Node;
-        tail = head;
-    }
 
-    StackList(int value){
+    Stack(int value){
         Node* root = new Node;
         root->value = value;
         root->next = root;
-        head = root;
-        tail = root;
         size++;
-        delete(root);
+    }
+
+    Stack(const Stack &stack){
+        Node* newNode = new Node;
+        newNode->value = stack.pTop->value;
+        newNode->next = stack.pTop->next;
+        pTop = newNode;
+        while(pTop!=stack.pTop)
+        {
+            push(*pTop);
+            pTop = pTop->next;
+        }
     }
 
     void push(const Node &node){
-        Node* temp = head;
-        head = (Node *) &node;
-        //node.next = tail;
+
+        size++;
     }
 
+    Node pop(){
+        pTop = pTop->next;
+        lst->next = pTop;
+        size--;
+    }
 
-    ~StackList(){ std::cout << "deleted";}
+    Node * peek(){
+        return pTop;
+    }
 
-    friend std::ostream& operator<< (std::ostream &out, const StackList &node) {
+    ~Stack(){ std::cout << "deleted" << std::endl;}
 
-            out << node.size << " " << node.head << " " << node.tail;
+    friend std::ostream& operator<< (std::ostream &out, const Stack &node) {
+
+        out << node.size;
 
         return out;
     }
 
-    friend std::istream& operator>> (std::istream &in, StackList &node){
-        in >> node.size;
+    friend std::istream& operator>> (std::istream &in, Node &node){
+        in >> node.value;
         return in;
+    }
+
+    int getSize() const {
+        return this->size;
     }
 };
