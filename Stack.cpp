@@ -20,7 +20,7 @@ public:
     void copy(const Stack &source) {
         Node *temp = source.pTop->next;
         do {
-            push(*temp);
+            push(temp->value);
             temp = temp->next;
         } while (size < source.getSize());
     }
@@ -51,9 +51,9 @@ public:
         other.size = 0;
     }
 
-    void push(const Node &node) {
+    void push(const int &value) {
         Node *newNode = new Node;
-        newNode->value = node.value;
+        newNode->value = value;
         newNode->next = pTop;
         pTop = newNode;
         lst->next = pTop;

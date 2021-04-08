@@ -14,9 +14,9 @@ int main() {
     Node node2{};
     node2.value = 4;
 
-    stackList.push(node);
-    stackList.push(node1);
-    stackList.push(node2);
+    stackList.push(2);
+    stackList.push(3);
+    stackList.push(4);
 
 
     Stack listList = stackList;
