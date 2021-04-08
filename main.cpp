@@ -20,17 +20,13 @@ int main() {
 
 
     Stack listList = stackList;
+    Stack tList(3);
+    tList = stackList;
 
-    //listList.push(node);
-    //stackList.pop();
-    //stackList.push(node);
 
     cout << stackList << endl;
     cout << listList << endl;
-
-    //cout << listList.getSize() << endl;
-
-
+    cout << tList << endl;
 
     return 0;
 }

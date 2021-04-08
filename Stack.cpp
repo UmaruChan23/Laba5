@@ -1,7 +1,8 @@
 #include <iostream>
-#include "Node.cpp"
+#include "Node.h"
 
 class Stack {
+
     Node *pTop, *lst;
     int size = 0;
 public:
@@ -24,13 +25,21 @@ public:
         } while (size < source.getSize());
     }
 
+    Stack() {
+        pTop = nullptr;
+        lst = nullptr;
+    }
+
     Stack(int value) {
         init(value);
     }
 
     Stack(const Stack &source) {
-        init(source.pTop->value);
-        copy(source);
+        Stack temp;
+        temp.init(source.pTop->value);
+        temp.copy(source);
+        init(temp.pTop->value);
+        copy(temp);
     }
 
     Stack(Stack &&other) {
@@ -53,19 +62,18 @@ public:
 
     int pop() {
         if (size <= 0) {
-            delete[] this;
+            delete this;
             pTop = lst = nullptr;
         } else {
             int value = pTop->value;
             Node *temp;
             temp = pTop->next;
-            delete[] pTop;
+            delete pTop;
             pTop = temp;
             lst->next = pTop;
             size--;
             return value;
         }
-
     }
 
     int peek() {
@@ -82,29 +90,40 @@ public:
         }
     }
 
-    Stack &operator=(const Stack &other) {
-        if (this == &other) {
-            return *this;
-        }
-        pTop = other.pTop;
-        lst = other.lst;
-        size = other.size;
+    void assignValue(const Stack &source) {
+        pTop = nullptr;
+        lst = nullptr;
+        size = 0;
+        Stack temp;
+        temp.init(source.pTop->value);
+        temp.copy(source);
+        init(temp.pTop->value);
+        copy(temp);
     }
 
-    Stack &operator=(Stack &&other) {
-        if (this == &other) {
+
+    Stack &operator=(const Stack &source) {
+        if (this == &source) {
             return *this;
         }
-        pTop = other.pTop;
-        lst = other.lst;
-        size = other.size;
-        other.pTop = nullptr;
-        other.lst = nullptr;
+        assignValue(source);
+        return *this;
+    }
+
+    Stack &operator=(Stack &&source) {
+        if (this == &source) {
+            return *this;
+        }
+        assignValue(source);
+        source.pTop = nullptr;
+        source.lst = nullptr;
+        source.size = 0;
+        return *this;
     }
 
 
     friend std::ostream &operator<<(std::ostream &out, const Stack &node) {
-        if(node.size > 0){
+        if (node.size > 0) {
             Node *temp;
             temp = node.pTop;
             do {
