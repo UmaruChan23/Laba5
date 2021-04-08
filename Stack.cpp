@@ -6,8 +6,8 @@ class Stack {
     int size = 0;
 public:
 
-    Stack(int value){
-        Node* root = new Node;
+    void init(int value) {
+        Node *root = new Node;
         root->value = value;
         root->next = root;
         pTop = root;
@@ -16,18 +16,34 @@ public:
         size++;
     }
 
-    Stack(const Stack &stack){
-        Node* temp = stack.pTop;
-        size = stack.getSize();
-        pTop = temp;
-        lst = temp;
-        while(temp->next != pTop){
+    void copy(const Stack &source) {
+        Node *temp = source.pTop->next;
+        do {
+            push(*temp);
             temp = temp->next;
-        }
+        } while (size < source.getSize());
     }
 
-    void push(const Node &node){
-        Node* newNode = new Node;
+    Stack(int value) {
+        init(value);
+    }
+
+    Stack(const Stack &source) {
+        init(source.pTop->value);
+        copy(source);
+    }
+
+    Stack(Stack &&other) {
+        pTop = other.pTop;
+        lst = other.lst;
+        size = other.size;
+        other.pTop = nullptr;
+        other.lst = nullptr;
+        other.size = 0;
+    }
+
+    void push(const Node &node) {
+        Node *newNode = new Node;
         newNode->value = node.value;
         newNode->next = pTop;
         pTop = newNode;
@@ -35,42 +51,71 @@ public:
         size++;
     }
 
-    Node pop(){
-        Node* temp;
-        temp = pTop->next;
-        delete(pTop);
-        pTop = temp;
-        lst->next = pTop;
-        size--;
-    }
-
-    Node * peek(){
-        return pTop;
-    }
-
-    ~Stack(){
-        for(int i =0; i < size; i++){
-            pop();
+    int pop() {
+        if (size <= 0) {
+            delete[] this;
+            pTop = lst = nullptr;
+        } else {
+            int value = pTop->value;
+            Node *temp;
+            temp = pTop->next;
+            delete[] pTop;
+            pTop = temp;
+            lst->next = pTop;
+            size--;
+            return value;
         }
+
     }
 
-    friend std::ostream& operator<< (std::ostream &out, const Stack &node) {
-
-        Node *temp;
-        temp = node.pTop;
-        do {
-            out << temp->value << " "; // вывод значения узла p
-            temp = temp->next; // переход к следующему узлу
-        } while (temp != node.pTop); // условие окончания обхода
-        return out;
-    }
-
-    friend std::istream& operator>> (std::istream &in, Node &node){
-        in >> node.value;
-        return in;
+    int peek() {
+        return pTop->value;
     }
 
     int getSize() const {
         return this->size;
     }
+
+    ~Stack() {
+        for (int i = 0; i < size; i++) {
+            pop();
+        }
+    }
+
+    Stack &operator=(const Stack &other) {
+        if (this == &other) {
+            return *this;
+        }
+        pTop = other.pTop;
+        lst = other.lst;
+        size = other.size;
+    }
+
+    Stack &operator=(Stack &&other) {
+        if (this == &other) {
+            return *this;
+        }
+        pTop = other.pTop;
+        lst = other.lst;
+        size = other.size;
+        other.pTop = nullptr;
+        other.lst = nullptr;
+    }
+
+
+    friend std::ostream &operator<<(std::ostream &out, const Stack &node) {
+        if(node.size > 0){
+            Node *temp;
+            temp = node.pTop;
+            do {
+                out << temp->value << " ";
+                temp = temp->next;
+            } while (temp != node.pTop);
+            return out;
+        } else {
+            out << "The list does not exist";
+            return out;
+        }
+    }
+
 };

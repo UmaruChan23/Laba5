@@ -4,6 +4,7 @@
 using namespace std;
 
 int main() {
+
     Stack stackList(1);
 
     Node node{};
@@ -15,24 +16,19 @@ int main() {
 
     stackList.push(node);
     stackList.push(node1);
-
-    stackList.pop();
-
     stackList.push(node2);
-    stackList.push(node1);
-    stackList.push(node);
 
 
-    Stack listList(stackList);
+    Stack listList = stackList;
 
-    listList.pop();
-    listList.push(node);
+    //listList.push(node);
+    //stackList.pop();
+    //stackList.push(node);
 
     cout << stackList << endl;
-
     cout << listList << endl;
 
-    cout << listList.getSize() << endl;
+    //cout << listList.getSize() << endl;
 
 
 
