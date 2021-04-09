@@ -1,3 +1,43 @@
+#include <ostream>
+#include "Node.h"
+
+template<typename T>
+class Stack {
+
+    Node<T> *pTop, *lst;
+    int size = 0;
+public:
+
+    void init(T value);
+
+    void copy(const Stack &source);
+
+    Stack();
+
+    Stack(T value);
+
+    Stack(const Stack &source);
+
+    Stack(Stack &&other);
+
+    void push(const T &value);
+
+    T pop();
+
+    T peek();
+
+    int getSize() const;
+
+    ~Stack();
+
+    void assignValue(const Stack &source);
+
+    Stack &operator=(const Stack &source);
+
+    Stack &operator=(Stack &&source);
+
+    template<typename T1> friend std::ostream &operator<<(std::ostream &out, const Stack<T1> &source);
+};
 
 template<typename T>
 Node<T> *pTop;
@@ -57,7 +97,7 @@ Stack<T>::Stack(Stack &&other) {
 
 template<typename T>
 void Stack<T>::push(const T &value) {
-    auto *newNode = new Node<T>;
+    Node<T> *newNode = new Node<T>;
     newNode->value = value;
     newNode->next = pTop;
     pTop = newNode;

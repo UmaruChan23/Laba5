@@ -3,4 +3,4 @@ project(Laba5)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Laba5 main.cpp Node.h Stack.cpp)
+add_executable(Laba5 main.cpp Stack.h Node.h)

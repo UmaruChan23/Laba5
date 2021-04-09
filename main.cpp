@@ -1,28 +1,21 @@
 #include <iostream>
-#include "Stack.cpp"
-
+#include "Stack.h"
 using namespace std;
 
 int main() {
 
-    Stack stackList(1);
-
-    Node node{};
-    node.value = 2;
-    Node node1{};
-    node1.value = 3;
-    Node node2{};
-    node2.value = 4;
+    Stack<int> stackList(1);
 
     stackList.push(2);
     stackList.push(3);
     stackList.push(4);
 
-
-    Stack listList = stackList;
-    Stack tList(3);
+    Stack<int> listList = stackList;
+    Stack<int> tList(3);
     tList = stackList;
 
+    listList.push(5);
+    tList.pop();
 
     cout << stackList << endl;
     cout << listList << endl;

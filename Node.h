@@ -1,4 +1,5 @@
+template<typename T>
 struct Node {
-    int value;
+    T value;
     Node* next;
 };
