@@ -134,7 +134,8 @@ int Stack<T>::getSize() const {
 
 template<typename T>
 Stack<T>::~Stack() {
-    for (int i = 0; i < size; i++) {
+    int value = size;
+    for (int i = 0; i < value - 1; i++) {
         pop();
     }
 }
@@ -166,9 +167,9 @@ Stack<T> &Stack<T>::operator=(Stack &&source) {
         return *this;
     }
     assignValue(source);
+    source.size = 0;
     source.pTop = nullptr;
     source.lst = nullptr;
-    source.size = 0;
     return *this;
 }
 
