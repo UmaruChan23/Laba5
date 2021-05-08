@@ -3,7 +3,6 @@
 
 template<typename T>
 class Stack {
-
     Node<T> *pTop, *lst;
     int size = 0;
 public:
@@ -32,9 +31,9 @@ public:
 
     void assignValue(const Stack &source);
 
-    Stack &operator=(const Stack &source);
+    Stack &operator=(const Stack &source) const;
 
-    Stack &operator=(Stack &&source);
+    Stack &operator=(Stack &&source) const;
 
     template<typename T1> friend std::ostream &operator<<(std::ostream &out, const Stack<T1> &source);
 };
@@ -142,6 +141,7 @@ Stack<T>::~Stack() {
 
 template<typename T>
 void Stack<T>::assignValue(const Stack &source) {
+    this->~Stack();
     pTop = nullptr;
     lst = nullptr;
     size = 0;
@@ -153,7 +153,7 @@ void Stack<T>::assignValue(const Stack &source) {
 }
 
 template<typename T>
-Stack<T> &Stack<T>::operator=(const Stack &source) {
+Stack<T> &Stack<T>::operator=(const Stack &source) const {
     if (this == &source) {
         return *this;
     }
@@ -162,7 +162,7 @@ Stack<T> &Stack<T>::operator=(const Stack &source) {
 }
 
 template<typename T>
-Stack<T> &Stack<T>::operator=(Stack &&source) {
+Stack<T> &Stack<T>::operator=(Stack &&source) const{
     if (this == &source) {
         return *this;
     }

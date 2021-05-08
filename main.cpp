@@ -10,9 +10,9 @@ int main() {
     stackList.push(3);
     stackList.push(4);
 
+
     Stack<int> listList = stackList;
-    Stack<int> tList(3);
-    tList = stackList;
+    Stack<int> tList = move(stackList);
 
     listList.push(5);
     tList.pop();
